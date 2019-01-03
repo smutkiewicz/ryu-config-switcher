@@ -30,5 +30,6 @@ class MyTopo( Topo ):
         self.addLink( leftSwitch, rightSwitch )
         self.addLink( rightSwitch, rightHost )
 
+        # c0 = net.addController('c0', controller=RemoteController, ip='', port=8888)
 topos = { 'topo1': ( lambda: MyTopo() ) }
 

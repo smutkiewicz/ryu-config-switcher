@@ -6,10 +6,10 @@ Wszystko uruchamiane z folderu repozytorium.
 
 ## Mininet
 
-### Uruchamianie z topologią o nazwie `topo1`:
+### Uruchamianie z przykładową topologią:
 
 
-`sudo mn --custom topo.py --topo topo1 --mac --controller remote --switch ovsk`
+`sudo python mytopo.py`
 
 
 ## Ryu
@@ -17,5 +17,5 @@ Wszystko uruchamiane z folderu repozytorium.
 ### Remote controller: ip='127.0.0.1', port=8888
 
 
-`ryu-manager simple_switch_13.py`
+`ryu-manager --ofp-tcp-listen-port 8888 simple_switch_13.py`
 
