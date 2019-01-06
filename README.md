@@ -19,3 +19,6 @@ Wszystko uruchamiane z folderu repozytorium.
 
 `ryu-manager --ofp-tcp-listen-port 8888 simple_switch_13.py`
 
+
+Serwer działa na porcie 8181.
+
