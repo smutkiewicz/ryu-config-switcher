@@ -32,15 +32,11 @@ class MainActivity : AppCompatActivity()
     private fun createSettingsPanel()
     {
         val settings = arrayListOf(ID_SETTING_1, ID_SETTING_2, ID_SETTING_3, ID_SETTING_4)
-        val buttons = arrayListOf(setting1Btn, setting2Btn, setting3Btn, setting4Btn)
 
-        var i = 0
-        buttons.forEach { button ->
-            button.setOnClickListener {
-                sendRequest(settings[i])
-                i++
-            }
-        }
+        setting1Btn.setOnClickListener { sendRequest(settings[0]) }
+        setting2Btn.setOnClickListener { sendRequest(settings[1]) }
+        setting3Btn.setOnClickListener { sendRequest(settings[2]) }
+        setting4Btn.setOnClickListener { sendRequest(settings[3]) }
 
         setIpAddressBtn.setOnClickListener { showIpInputDialog() }
     }
