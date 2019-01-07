@@ -1,26 +1,30 @@
 package studios.aestheticapps.ryupilot
 
 import android.content.Context
+import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 
-object VolleyHelper
+class VolleyHelper constructor(context: Context)
 {
-    private var requestQueue: RequestQueue? = null
-
-    fun obtainRequestQueue(context: Context): RequestQueue?
-    {
-        if (requestQueue == null)
-        {
-            requestQueue = Volley.newRequestQueue(context)
-        }
-
-        return requestQueue
+    val requestQueue: RequestQueue by lazy {
+        Volley.newRequestQueue(context.applicationContext)
     }
 
-    fun destroyRequestQueue()
+    companion object
     {
-        requestQueue?.cancelAll(null)
-        requestQueue = null
+        @Volatile
+        private var INSTANCE: VolleyHelper? = null
+
+        fun getInstance(context: Context) =
+            INSTANCE ?: synchronized(this)
+            {
+                INSTANCE ?: VolleyHelper(context).also {
+                    INSTANCE = it
+                }
+            }
     }
+
+    fun <T> addToRequestQueue(req: Request<T>) = requestQueue.add(req)
 }
+

@@ -6,8 +6,10 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import org.apache.commons.validator.routines.InetAddressValidator
 
 class MainActivity : AppCompatActivity()
 {
@@ -35,7 +37,7 @@ class MainActivity : AppCompatActivity()
         var i = 0
         buttons.forEach { button ->
             button.setOnClickListener {
-                // send http request with parameter settings[i]
+                sendRequest(settings[i])
                 i++
             }
         }
@@ -54,27 +56,42 @@ class MainActivity : AppCompatActivity()
                 false
             )
 
-        val inputIpTextLayout = viewInflated.findViewById(R.id.inputIpTextLayout) as EditText
+        val view = viewInflated.findViewById(R.id.inputIpTextLayout) as EditText
+        view.setText(PrefsHelper.obtainRyuIpAddress(applicationContext))
+
         builder.apply {
             setTitle(getString(R.string.set_ryu_controller_ip))
             setView(viewInflated)
             setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.cancel() }
-            setPositiveButton(android.R.string.ok) { dialog, _ ->
-                val newAddress = inputIpTextLayout.text.toString()
-                PrefsHelper.setRyuIpAddress(context, newAddress)
-                ipAddressTv.text = newAddress
-                dialog.dismiss()
-            }
-
+            setPositiveButton(android.R.string.ok) { dialog, _ -> if (checkAndSetIpAddress(view.text.toString())) dialog.dismiss() }
             show()
         }
     }
 
+    private fun checkAndSetIpAddress(newAddress: String): Boolean
+    {
+        return if (InetAddressValidator.getInstance().isValid(newAddress))
+        {
+            PrefsHelper.setRyuIpAddress(this, newAddress)
+            ipAddressTv.text = newAddress
+            true
+        }
+        else
+        {
+            showToast(getString(R.string.invalid_address))
+            false
+        }
+    }
+
+    private fun sendRequest(settingId: Int) = RyuStringRequest(applicationContext, settingId).sendPostRequest()
+
+    private fun showToast(text: String) = Toast.makeText(applicationContext, text, Toast.LENGTH_SHORT).show()
+
     private companion object
     {
-        const val ID_SETTING_1 = "1"
-        const val ID_SETTING_2 = "2"
-        const val ID_SETTING_3 = "3"
-        const val ID_SETTING_4 = "4"
+        const val ID_SETTING_1 = 1
+        const val ID_SETTING_2 = 2
+        const val ID_SETTING_3 = 3
+        const val ID_SETTING_4 = 4
     }
 }

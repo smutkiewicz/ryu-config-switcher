@@ -13,7 +13,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/valid_ip_address"
                 android:imeOptions="actionDone"
-                android:inputType="textPassword"/>
+                android:inputType="textUri"/>
 
     </android.support.design.widget.TextInputLayout>
 </FrameLayout>

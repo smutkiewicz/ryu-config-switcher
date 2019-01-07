@@ -24,6 +24,7 @@ from ryu.lib.packet import ether_types
 from ryu.lib import hub
 from bottle import route, run, template, post, request
 
+PROP_NAME_SETTING_ID = "setting_id"
 
 class SimpleSwitch13(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
@@ -124,9 +125,10 @@ class SimpleSwitch13(app_manager.RyuApp):
     def handle_requests(self):
         @post('/change_setting/')
         def change_link_bandwidth():
+            print("Got POST change_setting request!")
             postdata = request.body.read()
             json = request.json
-            #property = json["property"]
+            #settingId = json[PROP_NAME_SETTING_ID]
 
         @route('/stop')
         def stop():
