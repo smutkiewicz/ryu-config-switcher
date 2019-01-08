@@ -16,7 +16,7 @@ class RyuStringRequest(private val context: Context, private val settingId: Int)
         {
             VolleyHelper
                 .getInstance(context)
-                .addToRequestQueue(buildJsonObjectBody())
+                .addToRequestQueue(buildJsonObjectRequest())
         }
         catch (e: JSONException)
         {
@@ -24,18 +24,23 @@ class RyuStringRequest(private val context: Context, private val settingId: Int)
         }
     }
 
-    private fun buildJsonObjectBody(): JsonObjectRequest
+    private fun buildJsonObjectRequest() = object : JsonObjectRequest(
+        Request.Method.POST,
+        buildUrl(),
+        buildJsonBody(),
+        Response.Listener<JSONObject> { response -> showToast("Got response: " + response.toString()) },
+        Response.ErrorListener { }
+    ) { }
+
+    private fun buildJsonBody(): JSONObject
     {
-        val url = buildUrl()
-
         val jsonBody = JSONObject()
-        jsonBody.put(PROP_SETTING_ID_NAME, settingId)
+        jsonBody.apply {
+            put("Content-Type", "application/json")
+            put(PROP_SETTING_ID_NAME, settingId)
+        }
 
-        return object : JsonObjectRequest(
-            Request.Method.POST, url, jsonBody,
-            Response.Listener<JSONObject> { response -> showToast("Got response: " + response.toString()) },
-            Response.ErrorListener { showToast("Encountered error in sending request with url \"$url.\"") }
-        ) {}
+        return jsonBody
     }
 
     private fun buildUrl() = "http://" + PrefsHelper.obtainRyuIpAddress(context) + ":" + RYU_PORT + CHANGE_SETTING_PATH
