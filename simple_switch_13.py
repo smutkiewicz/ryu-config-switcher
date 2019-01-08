@@ -24,7 +24,6 @@ from ryu.lib.packet import ether_types
 from ryu.lib import hub
 from bottle import route, run, template, post, request
 
-
 class SimpleSwitch13(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
 
@@ -122,7 +121,7 @@ class SimpleSwitch13(app_manager.RyuApp):
         datapath.send_msg(out)
 
     def handle_requests(self):
-        @post('/change_setting/')
+        @post('/change_setting')
         def change_link_bandwidth():
             postdata = request.body.read()
             json = request.json
@@ -132,4 +131,4 @@ class SimpleSwitch13(app_manager.RyuApp):
         def stop():
             print("test")
 
-        run(host='localhost', port=8181)
+        run(host='192.168.0.14', port=8181)

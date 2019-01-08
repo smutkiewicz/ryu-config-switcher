@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">RyuPilot</string>
+    <string name="action_settings">Settings</string>
+    <string name="valid_ip_address">Valid IP Address...</string>
+    <string name="set_ryu_controller_ip">Set Ryu Controller IP</string>
+    <string name="invalid_address">Invalid Ryu IP Address!</string>
+</resources>
