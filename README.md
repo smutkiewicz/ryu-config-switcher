@@ -19,3 +19,5 @@ Wszystko uruchamiane z folderu repozytorium.
 
 `ryu-manager --ofp-tcp-listen-port 8888 simple_switch_13.py`
 
+
+Serwer z REST działa na porcie 8181. IP na którym powinien działać serwer jest ip interfejsu enp0s3 - w moim przypadku 192.168.0.14. Karta sieciowa VM powinna działać w trybie bridge.
