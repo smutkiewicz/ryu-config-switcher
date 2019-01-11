@@ -16,7 +16,7 @@ Podstawowym zapytaniem kierowanym do kontrolera SDN jest `POST` zawierający `se
 
 ## 4. Scenariusz interakcji
 
-Użytkownik, będąc w obrębie sieci WiFi, w której jest również komputer z maszyną wirtualną z serwerem nasłuchującym żądań typu POST od klientów, ma możliwość przełączenia konfiguracji sieci emulowanej w programie mininet.
+Użytkownik, będąc w obrębie sieci WiFi, w której jest również komputer z maszyną wirtualną z serwerem nasłuchującym żądań typu POST od klientów, ma możliwość przełączenia konfiguracji sieci emulowanej w programie mininet (z zestawu czterech predefiniowanych ustawień).
 
 ## 5. Konfiguracja
 
