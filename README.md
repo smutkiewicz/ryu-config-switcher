@@ -30,9 +30,16 @@ Użytkownik, będąc w obrębie sieci WiFi, w której jest również komputer z 
 4. Ustaw IP tego interfejsu w skrypcie `simple_switch_13.py` jako wartość stałej `HOST_IP_ADDRESS`.
 5. Ustaw to samo IP w swojej aplikacji RyuPilot.
 6. Uruchom kontroler komendą: `ryu-manager --ofp-tcp-listen-port 8888 simple_switch_13.py`
-7. Uruchom program Mininet z przykładową topologią komendą: `sudo python mytopo.py`
-8. Sprawdź, czy terminal printuje przychodzące POST requesty, jeśli tak - konfiguracja zakończona.
+7. Sprawdź, czy terminal printuje przychodzące POST requesty, jeśli tak - konfiguracja zakończona.
+8. Uruchom program Mininet z przykładową topologią komendą: `sudo python mytopo.py`
 9. Sprawdź, czy program Mininet prawidłowo połączył się z zewnętrznym kontrolerem.
+
+Wzorcowa odpowiedź kontrolera na wciśnięcie przycisku "Setting 1" w aplikacji RyuPilot
+
+```
+Requested setting_id = 1
+192.168.0.3 - - [11/Jan/2019 19:07:11] "POST /change_setting/ HTTP/1.1" 200 0
+```
 
 ## 6. Przykładowa sieć i zmieniane ustawienia
 
