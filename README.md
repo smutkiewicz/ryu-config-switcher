@@ -1,34 +1,48 @@
 # ryu-config-switcher
 
+## 1. Cel projektu
 
-Wszystko uruchamiane z folderu repozytorium.
+Implementacja rozwiązania, w którym konfiguracja sieci emulowanej w programie [mininet](http://mininet.org/) może być przełączana w wyniku interakcji aplikacji klienckiej (uruchamianej np. na smartfonie Android) i sterownika sieci SDN.
 
+## 2. Architektura rozwiązania
 
-## Mininet
+Aplikacja RyuPilot na system operacyjny Android (napisana w języku Kotlin), kontroler [Ryu](https://osrg.github.io/ryu/) (Python) z mini serwerem HTTP (biblioteka [bottle.py](https://bottlepy.org/docs/dev/)) + mininet, oba pracujące na tej samej maszynie wirtualnej.
 
-### Uruchamianie z przykładową topologią:
+## 3. Założenia projektowe
 
+Maksymalnym obrębem pracy pilota jest, dla ułatwienia, lokalna sieć WiFi. Kontroler pracuje na porcie `8888`, zaś serwer HTTP na porcie `8181`. Mobilna aplikacja kliencka ma możliwość ręcznego ustawienia adresu IP komputera/wirtualnej maszyny pod który będzie wysyłała zapytania. Aplikacja będzie dostępna do pobrania ze Sklepu Play w ramach (otwartego programu beta)[https://play.google.com/apps/testing/studios.aestheticapps.ryupilot]. 
 
-`sudo python mytopo.py`
+Podstawowym zapytaniem kierowanym do kontrolera SDN jest `POST` zawierający `setting_id` - identyfikator ustawienia sieci znanego wewnętrznie przez sterownik. Implementacja bardziej zaawansowanych zapytań nie będzie stanowiło problemu, jako że projekt jest niejako swoistym "Proof Of Concept".
 
+## 4. Scenariusz interakcji
 
-## Ryu
+Użytkownik, będąc w obrębie sieci WiFi, w której jest również komputer z maszyną wirtualną z serwerem nasłuchującym żądań typu POST od klientów, ma możliwość przełączenia konfiguracji sieci emulowanej w programie mininet.
 
-### Remote controller: ip='127.0.0.1', port=8888
+## 5. Konfiguracja
 
+### Opis inicjalizacji komunikacji RyuPilot + kontroler:
 
-`ryu-manager --ofp-tcp-listen-port 8888 simple_switch_13.py`
-
-
-Serwer z REST działa na porcie 8181. IP na którym powinien działać serwer jest ip interfejsu enp0s3. Karta sieciowa VM powinna działać w trybie bridge.
-
-
-## Opis inicjalizacji komunikacji RyuPilot + kontroler:
+*Uwaga!* Przed konfiguracją upewnij się, że masz zainstalowanego Pythona (wersja 2.7), kontroler Ryu, Mininet, bibliotekę bottle.py
 
 1. Zainstaluj aplikację [RyuPilot](https://play.google.com/apps/testing/studios.aestheticapps.ryupilot).
-2. Upewnij się, że twoja VM działa w trybie bridge karty sieciowej (Ustawienia > Sieć > Karta sieciowa podłączona do: "motkowana karta sieciowa (bridge)").
-3. Znajdź interfejs enp0s3 (pierwszy, który zawiera adres IP typu 198... a nie 10.0.0 ...).
+2. Jeśli używasz VM, upewnij się, że działa ona w trybie bridge karty sieciowej (w programie VirtualBox: Ustawienia > Sieć > Karta sieciowa podłączona do: "mostkowana karta sieciowa (bridge)").
+3. Jeśli używasz VM, znajdź interfejs karty sieciowej widziany przez Twój komputer.
 4. Ustaw IP tego interfejsu w skrypcie `simple_switch_13.py` jako wartość stałej `HOST_IP_ADDRESS`.
 5. Ustaw to samo IP w swojej aplikacji RyuPilot.
-6. Uruchom kontroler komendą `ryu-manager --ofp-tcp-listen-port 8888 simple_switch_13.py`
-7. Sprawdź, czy terminal printuje przychodzące POST requesty, jeśli tak - konfiguracja zakończona.
+6. Uruchom kontroler komendą: `ryu-manager --ofp-tcp-listen-port 8888 simple_switch_13.py`
+7. Uruchom program Mininet z przykładową topologią komendą: `sudo python mytopo.py`
+8. Sprawdź, czy terminal printuje przychodzące POST requesty, jeśli tak - konfiguracja zakończona.
+9. Sprawdź, czy program Mininet prawidłowo połączył się z zewnętrznym kontrolerem.
+
+## 6. Przykładowa sieć i zmieniane ustawienia
+
+### Sieć
+
+### setting_id=1
+
+### setting_id=2
+
+### setting_id=3
+
+### setting_id=4
+
