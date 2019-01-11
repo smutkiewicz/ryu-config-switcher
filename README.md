@@ -46,3 +46,6 @@ Użytkownik, będąc w obrębie sieci WiFi, w której jest również komputer z 
 
 ### setting_id=4
 
+# Autorzy (squidsquad)
+
+Michał Smutkiewicz, Paweł Gąska, Joanna Zalewska
