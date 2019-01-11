@@ -1,35 +1,36 @@
-"""Custom topology example
+from mininet.net import Mininet
+from mininet.cli import CLI
+from mininet.log import lg
+from mininet.node import Controller, RemoteController, OVSKernelSwitch, UserSwitch, OVSSwitch
+from mininet.link import Link, TCLink
 
-Two directly connected switches plus a host for each switch:
 
-   host --- switch --- switch --- host
+if __name__ == '__main__':
+    lg.setLogLevel( 'info')
 
-Adding the 'topos' dict with a key/value pair to generate our newly defined
-topology enables one to pass in '--topo=mytopo' from the command line.
-"""
+    net = Mininet(controller=RemoteController, link=TCLink, switch=OVSSwitch)
 
-from mininet.topo import Topo
+    h1 = net.addHost('h1')
+    h2 = net.addHost('h2')
 
-class MyTopo( Topo ):
-    "Simple topology example."
+    s1 = net.addSwitch('s1')
+    s2 = net.addSwitch('s2')
+    s3 = net.addSwitch('s3')
+    s4 = net.addSwitch('s4')
+    s5 = net.addSwitch('s5')
 
-    def __init__( self ):
-        "Create custom topo."
+    c0 = net.addController('c0', controller=RemoteController, ip='127.0.0.1', port=8888)
 
-        # Initialize topology
-        Topo.__init__( self )
+    net.addLink(h1,s1, bw =10)
+    net.addLink(s1, s2, bw =10)
+    net.addLink(s2, s4, bw =10)
+    net.addLink(s4, h2, bw =10)
+    net.addLink(s1, s5, bw =10)
+    net.addLink(s5, s4, bw =10)
+    net.addLink(s1,s3, bw =10)
+    net.addLink(s3,s4, bw =10)
 
-        # Add hosts and switches
-        leftHost = self.addHost( 'h1' )
-        rightHost = self.addHost( 'h2' )
-        leftSwitch = self.addSwitch( 's3' )
-        rightSwitch = self.addSwitch( 's4' )
-
-        # Add links
-        self.addLink( leftHost, leftSwitch )
-        self.addLink( leftSwitch, rightSwitch )
-        self.addLink( rightSwitch, rightHost )
-
-        # c0 = net.addController('c0', controller=RemoteController, ip='', port=8888)
-topos = { 'topo1': ( lambda: MyTopo() ) }
+    net.start()
+    CLI( net )
+    net.stop()
 
