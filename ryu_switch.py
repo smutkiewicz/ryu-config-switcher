@@ -21,11 +21,6 @@ from ryu.ofproto import ofproto_v1_3
 from ryu.lib.packet import packet
 from ryu.lib.packet import ethernet
 from ryu.lib.packet import ether_types
-from ryu.lib import hub
-from bottle import route, run, template, post, request
-
-HOST_IP_ADDRESS='localhost'
-SERVER_PORT=8181
 
 class SimpleSwitch13(app_manager.RyuApp):
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
@@ -33,7 +28,6 @@ class SimpleSwitch13(app_manager.RyuApp):
     def __init__(self, *args, **kwargs):
         super(SimpleSwitch13, self).__init__(*args, **kwargs)
         self.mac_to_port = {}
-        self.rest_api_thread = hub.spawn(self.handle_requests)
 
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
     def switch_features_handler(self, ev):
@@ -122,17 +116,3 @@ class SimpleSwitch13(app_manager.RyuApp):
         out = parser.OFPPacketOut(datapath=datapath, buffer_id=msg.buffer_id,
                                   in_port=in_port, actions=actions, data=data)
         datapath.send_msg(out)
-
-    def handle_requests(self):
-        @post('/change_setting/')
-        def change_link_bandwidth():
-            postdata = request.body.read()
-            json = request.json
-            setting_id = json["setting_id"]
-            print("Requested setting_id = " + str(setting_id))
-
-        @route('/stop')
-        def stop():
-            print("test")
-
-        run(host=HOST_IP_ADDRESS, port=SERVER_PORT)

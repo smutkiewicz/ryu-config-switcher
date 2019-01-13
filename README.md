@@ -10,7 +10,7 @@ Aplikacja RyuPilot na system operacyjny Android (napisana w języku Kotlin), kon
 
 ## 3. Założenia projektowe
 
-Maksymalnym obrębem pracy pilota jest, dla ułatwienia, lokalna sieć WiFi. Kontroler pracuje na porcie `8888`, zaś serwer HTTP na porcie `8181`. Mobilna aplikacja kliencka ma możliwość ręcznego ustawienia adresu IP komputera/wirtualnej maszyny pod który będzie wysyłała zapytania. Aplikacja będzie dostępna do pobrania ze Sklepu Play w ramach [otwartego programu beta](https://play.google.com/apps/testing/studios.aestheticapps.ryupilot). 
+Maksymalnym obrębem pracy pilota jest, dla ułatwienia, lokalna sieć WiFi. Kontroler pracuje na porcie `8888`, zaś serwer HTTP na porcie `8181`. Mobilna aplikacja kliencka ma możliwość ręcznego ustawienia adresu IP komputera/wirtualnej maszyny pod który będzie wysyłała zapytania. Aplikacja będzie dostępna do pobrania ze Sklepu Play w ramach [otwartego programu beta](https://play.google.com/apps/testing/studios.aestheticapps.ryupilot).
 
 Podstawowym zapytaniem kierowanym do kontrolera SDN jest `POST` zawierający `setting_id` - identyfikator ustawienia sieci znanego wewnętrznie przez sterownik. Implementacja bardziej zaawansowanych zapytań nie będzie stanowiło problemu, jako że projekt jest niejako swoistym "Proof Of Concept".
 
@@ -27,14 +27,14 @@ Użytkownik, będąc w obrębie sieci WiFi, w której jest również komputer z 
 1. Zainstaluj aplikację [RyuPilot](https://play.google.com/apps/testing/studios.aestheticapps.ryupilot).
 2. Jeśli używasz VM, upewnij się, że działa ona w trybie bridge karty sieciowej (w programie VirtualBox: Ustawienia > Sieć > Karta sieciowa podłączona do: "mostkowana karta sieciowa (bridge)").
 3. Jeśli używasz VM, znajdź interfejs karty sieciowej widziany przez Twój komputer.
-4. Ustaw IP tego interfejsu w skrypcie `simple_switch_13.py` jako wartość stałej `HOST_IP_ADDRESS`.
+4. Ustaw IP tego interfejsu w skrypcie `topo.py` jako wartość stałej `HOST_IP_ADDRESS`.
 5. Ustaw to samo IP w swojej aplikacji RyuPilot.
-6. Uruchom kontroler komendą: `ryu-manager --ofp-tcp-listen-port 8888 ryu_switch.py`
-7. Sprawdź, czy terminal printuje przychodzące POST requesty, jeśli tak - konfiguracja zakończona.
-8. Uruchom program Mininet z przykładową topologią komendą: `sudo python topo.py`
-9. Sprawdź, czy program Mininet prawidłowo połączył się z zewnętrznym kontrolerem.
+6. Uruchom program serwer Bottle i Mininet z przykładową topologią komendą: `sudo python topo.py`
+7. Sprawdź, czy terminal printuje przychodzące POST requesty.
+8. Uruchom kontroler komendą: `ryu-manager --ofp-tcp-listen-port 8888 ryu_switch.py`
+9. Sprawdź, czy program Mininet prawidłowo połączył się z zewnętrznym kontrolerem, jeśli tak - konfiguracja zakończona.
 
-Wzorcowa odpowiedź kontrolera na wciśnięcie przycisku "Setting 1" w aplikacji RyuPilot
+Wzorcowa odpowiedź serwera na wciśnięcie przycisku "Setting 1" w aplikacji RyuPilot:
 
 ```
 Requested setting_id = 1
