@@ -6,13 +6,9 @@ from mininet.log import lg
 from mininet.node import Controller, RemoteController, OVSKernelSwitch, UserSwitch, OVSSwitch
 from mininet.link import Link, TCLink
 from bottle import route, run, template, post, request, Bottle
-import threading
 import socket
 
-from mininet.util import dumpNodeConnections
-
 IP_DATA_FILE = 'ip_data.txt'
-HOST_IP_ADDRESS = '192.168.0.14'
 SERVER_PORT = 8181
 
 app = Bottle()
@@ -21,7 +17,7 @@ links = []
 
 def read_ip():
     f = open(IP_DATA_FILE, "r")
-    my_ip = f.readline()
+    my_ip = f.readline().rstrip('\n')
 
     if is_valid_ipv4_address(my_ip):
         print('Bottle server IP set as = ' + my_ip)
@@ -47,7 +43,7 @@ def is_valid_ipv4_address(address):
 
 
 def run_bottle():
-    app.run(host=HOST_IP_ADDRESS, port=SERVER_PORT)
+    app.run(host=read_ip(), port=SERVER_PORT)
     return
 
 

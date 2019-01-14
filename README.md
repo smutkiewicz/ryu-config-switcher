@@ -27,7 +27,7 @@ Użytkownik, będąc w obrębie sieci WiFi, w której jest również komputer z 
 1. Zainstaluj aplikację [RyuPilot](https://play.google.com/apps/testing/studios.aestheticapps.ryupilot).
 2. Jeśli używasz VM, upewnij się, że działa ona w trybie bridge karty sieciowej (w programie VirtualBox: Ustawienia > Sieć > Karta sieciowa podłączona do: "mostkowana karta sieciowa (bridge)").
 3. Jeśli używasz VM, znajdź interfejs karty sieciowej widziany przez Twój komputer.
-4. Ustaw IP tego interfejsu w skrypcie `topo.py` jako wartość stałej `HOST_IP_ADDRESS`.
+4. Ustaw IP tego interfejsu w pliku `ip_data.txt`.
 5. Ustaw to samo IP w swojej aplikacji RyuPilot.
 6. Uruchom program serwer Bottle i Mininet z przykładową topologią komendą: `sudo python topo.py`
 7. Sprawdź, czy terminal printuje przychodzące POST requesty.
@@ -52,14 +52,6 @@ Requested setting_id = 1
 ### setting_id=3
 
 ### setting_id=4
-
-## 7. REST API
-
-- Check if connection is available: GET `http://IP_ADDRESS:8181/check_connection/`
-
-- Change settings (1-4): POST `http://IP_ADDRESS:8181/change_setting/` json params: `setting_id: Int`
-
-- Stop mininet: POST `http://IP_ADDRESS:8181/stop`
 
 # Autorzy (squidsquad)
 
