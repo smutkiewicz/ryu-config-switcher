@@ -9,8 +9,10 @@ from bottle import route, run, template, post, request, Bottle
 import threading
 import socket
 
+from mininet.util import dumpNodeConnections
+
 IP_DATA_FILE = 'ip_data.txt'
-HOST_IP_ADDRESS = 'localhost'
+HOST_IP_ADDRESS = '192.168.0.14'
 SERVER_PORT = 8181
 
 app = Bottle()
@@ -55,12 +57,34 @@ def start_bottle_process():
     return p
 
 
+@app.get('/check_connection/')
+def check_connection():
+    print("Connection correct.")
+    return "<p>Connection correct.</p>"
+
+
 @app.post('/change_setting/')
-def change_link_bandwidth():
+def change_setting():
     postdata = request.body.read()
     json = request.json
     setting_id = json["setting_id"]
     print("Requested setting_id = " + str(setting_id))
+
+    if setting_id == 1:
+        # net.configLinkStatus()
+        print(str(setting_id) + " set successfully.")
+
+    if setting_id == 2:
+        # net.configLinkStatus()
+        print(str(setting_id) + " set successfully.")
+
+    if setting_id == 3:
+        # net.configLinkStatus()
+        print(str(setting_id) + " set successfully.")
+
+    if setting_id == 4:
+        # net.configLinkStatus()
+        print(str(setting_id) + " set successfully.")
 
 
 @app.route('/stop')
@@ -74,24 +98,22 @@ if __name__ == '__main__':
 
     p = start_bottle_process()
 
-    net = Mininet(controller=RemoteController, link=TCLink, switch=OVSSwitch)
+    net = Mininet(controller=RemoteController)
 
     h1 = net.addHost('h1')
     h2 = net.addHost('h2')
 
     s1 = net.addSwitch('s1')
     s2 = net.addSwitch('s2')
-    s3 = net.addSwitch('s3')
-    s4 = net.addSwitch('s4')
-    s5 = net.addSwitch('s5')
 
     c0 = net.addController('c0', controller=RemoteController, ip='127.0.0.1', port=8888)
 
-    links = [net.addLink(h1, s1, bw=10), net.addLink(s1, s2, bw=10), net.addLink(s2, s4, bw=10),
-             net.addLink(s4, h2, bw=10), net.addLink(s1, s5, bw=10), net.addLink(s5, s4, bw=10),
-             net.addLink(s1, s3, bw=10), net.addLink(s3, s4, bw=10)]
+    links = [net.addLink(h1, s1), net.addLink(s1, h2),
+             net.addLink(h1, s2), net.addLink(s2, h2)]
 
     net.start()
     CLI(net)
     net.stop()
     p.terminate()
+
+

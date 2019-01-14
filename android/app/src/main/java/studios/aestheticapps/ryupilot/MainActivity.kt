@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity()
     private fun createIpAddressPanel()
     {
         ipAddressTv.text = PrefsHelper.obtainRyuIpAddress(this)
-        setIpAddressBtn.setOnClickListener { showIpInputDialog() }
+        setIpCardView.setOnClickListener { showIpInputDialog() }
     }
 
     private fun createSettingsPanel()
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity()
             .from(this)
             .inflate(
                 R.layout.ip_input_dialog,
-                cardView as ViewGroup,
+                setIpCardView as ViewGroup,
                 false
             )
 
