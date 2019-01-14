@@ -53,6 +53,14 @@ Requested setting_id = 1
 
 ### setting_id=4
 
+## 7. REST API
+
+- Check if connection is available: GET `http://IP_ADDRESS:8181/check_connection/`
+
+- Change settings (1-4): POST `http://IP_ADDRESS:8181/change_setting/` json params: `setting_id: Int`
+
+- Stop mininet: POST `http://IP_ADDRESS:8181/stop`
+
 # Autorzy (squidsquad)
 
 Michał Smutkiewicz, Paweł Gąska, Joanna Zalewska
