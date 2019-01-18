@@ -34,11 +34,15 @@ class BottleRunner(Bottle):
         if setting_id == 1:
             self.network.configLinkStatus(src='h1', dst='s1', status='down')
             self.network.configLinkStatus(src='s1', dst='h2', status='down')
+            self.network.configLinkStatus(src='s1', dst='h3', status='up')
+            self.network.configLinkStatus(src='s1', dst='h4', status='up')
             print(str(setting_id) + " set successfully.")
 
         if setting_id == 2:
             self.network.configLinkStatus(src='h1', dst='s1', status='up')
             self.network.configLinkStatus(src='s1', dst='h2', status='up')
+            self.network.configLinkStatus(src='s1', dst='h3', status='down')
+            self.network.configLinkStatus(src='s1', dst='h4', status='down')
             print(str(setting_id) + " set successfully.")
 
         if setting_id == 3:
@@ -98,18 +102,20 @@ if __name__ == '__main__':
     net = Mininet(controller=RemoteController)
     h1 = net.addHost('h1')
     h2 = net.addHost('h2')
+    h3 = net.addHost('h3')
+    h4 = net.addHost('h4')
     # hosts = [h1, h2]
 
     s1 = net.addSwitch('s1')
-    s2 = net.addSwitch('s2')
+#    s2 = net.addSwitch('s2')
     # switches = [s1, s2]
 
     c0 = net.addController('c0', controller=RemoteController, ip='127.0.0.1', port=8888)
 
     net.addLink(h1, s1)
     net.addLink(s1, h2)
-    net.addLink(h1, s2)
-    net.addLink(s2, h2)
+    net.addLink(s1, h3)
+    net.addLink(s1, h4)
 
     net.start()
     start_bottle_process(network=net)
