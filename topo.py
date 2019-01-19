@@ -1,12 +1,10 @@
-import thread
-import threading
 from multiprocessing import Process
 
 from mininet.net import Mininet
 from mininet.cli import CLI
 from mininet.log import lg
 from mininet.node import RemoteController
-from bottle import route, run, template, post, request, Bottle
+from bottle import request, Bottle
 import socket
 
 IP_DATA_FILE = 'ip_data.txt'
@@ -14,9 +12,6 @@ SERVER_PORT = 8181
 
 
 class App:
-
-    IP_DATA_FILE = 'ip_data.txt'
-    SERVER_PORT = 8181
 
     def __init__(self):
         self.app = Bottle()
@@ -63,9 +58,10 @@ class App:
 
         if self.is_valid_ipv4_address(my_ip):
             print('Bottle server IP set as = ' + my_ip)
+            print('Set server IP in your RyuPilot app as \'' + my_ip + '\'.')
             return my_ip
         else:
-            print('Bottle server IP = ' + my_ip + ' invalid, changed to = localhost')
+            print('Bottle server IP = ' + my_ip + ' invalid, changed to = localhost.')
             return 'localhost'
 
     def is_valid_ipv4_address(self, address):
@@ -93,30 +89,31 @@ class App:
         print("Requested setting_id = " + str(setting_id))
 
         if setting_id == 1:
-            print self.net.hosts
+            print('Setting links h1-s1 and s1-h2 to status=\'down\'.')
             self.net.configLinkStatus(src='h1', dst='s1', status='down')
             self.net.configLinkStatus(src='s1', dst='h2', status='down')
             print(str(setting_id) + " set successfully.")
 
         if setting_id == 2:
+            print('Setting links h1-s1 and s1-h2 to status=\'up\'.')
             self.net.configLinkStatus(src='h1', dst='s1', status='up')
             self.net.configLinkStatus(src='s1', dst='h2', status='up')
             print(str(setting_id) + " set successfully.")
 
         if setting_id == 3:
-            print(str(setting_id) + " set successfully.")
+            print('Print hosts + switches info:')
+            print self.net.hosts
+            print self.net.switches
 
         if setting_id == 4:
-            print(str(setting_id) + " set successfully.")
+            print('Print controllers:')
+            print self.net.controllers
 
     def stop(self):
-        net.stop()
+        self.net.stop()
         print("Requested stop.")
 
 
 if __name__ == '__main__':
     lg.setLogLevel( 'info')
     App().run()
-
-
-
