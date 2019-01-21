@@ -92,19 +92,22 @@ class App:
         json = request.json
         setting_id = json["setting_id"]
         print("Requested setting_id = " + str(setting_id))
-#for safety remember to always update all links
-#everything off
+
+        #for safety remember to always update all links
+        #everything off
         if setting_id == 1:
-            print('Setting links h1-s1 and s1-h2 to status=\'down\'.')
-            self.net.configLinkStatus(src='h1', dst='s1', status='down')
-            self.net.configLinkStatus(src='s2', dst='h2', status='down')
-            self.net.configLinkStatus(src='s1', dst='s3', status='down')
-            self.net.configLinkStatus(src='s3', dst='s2', status='down')
-            self.net.configLinkStatus(src='s3', dst='h3', status='down')
+            print('Setting network up.')
+            print('Setting h3 to be connected through s3 & disconnecting s1 from s2')
+            self.net.configLinkStatus(src='h1', dst='s1', status='up')
+            self.net.configLinkStatus(src='s2', dst='h2', status='up')
             self.net.configLinkStatus(src='s1', dst='s2', status='down')
+            self.net.configLinkStatus(src='s1', dst='s3', status='up')
+            self.net.configLinkStatus(src='s3', dst='h3', status='up')
+            self.net.configLinkStatus(src='s3', dst='s2', status='up')
             print(str(setting_id) + " set successfully.")
 
         if setting_id == 2:
+            print('Disconnecting h2.')
             print('Setting links h1-s1 and s1-h2 to status=\'up\'.')
             self.net.configLinkStatus(src='h1', dst='s1', status='up')
             self.net.configLinkStatus(src='s1', dst='s2', status='up')
@@ -115,22 +118,25 @@ class App:
             print(str(setting_id) + " set successfully.")
 
         if setting_id == 3:
-            print('Setting H3 to be connected through S3 & disconnecting S1 from S2')
-            self.net.configLinkStatus(src='h1', dst='s1', status='up')
-            self.net.configLinkStatus(src='s2', dst='h2', status='up')
-            self.net.configLinkStatus(src='s1', dst='s2', status='down')
-            self.net.configLinkStatus(src='s1', dst='s3', status='up')
-            self.net.configLinkStatus(src='s3', dst='h3', status='up')
-            self.net.configLinkStatus(src='s3', dst='s2', status='up')
-            print(str(setting_id) + " set successfully.")
-
-        if setting_id == 4:
+            print('Disconnecting h1.')
             self.net.configLinkStatus(src='h1', dst='s1', status='down')
             self.net.configLinkStatus(src='s2', dst='h2', status='up')
             self.net.configLinkStatus(src='s1', dst='s2', status='down')
             self.net.configLinkStatus(src='s1', dst='s3', status='down')
             self.net.configLinkStatus(src='s3', dst='h3', status='up')
             self.net.configLinkStatus(src='s3', dst='s2', status='up')
+            print(str(setting_id) + " set successfully.")
+
+        if setting_id == 4:
+            print('Setting network down.')
+            print('Setting links h1-s1 and s1-h2 to status=\'down\'.')
+            self.net.configLinkStatus(src='h1', dst='s1', status='down')
+            self.net.configLinkStatus(src='s2', dst='h2', status='down')
+            self.net.configLinkStatus(src='s1', dst='s3', status='down')
+            self.net.configLinkStatus(src='s3', dst='s2', status='down')
+            self.net.configLinkStatus(src='s3', dst='h3', status='down')
+            self.net.configLinkStatus(src='s1', dst='s2', status='down')
+            print(str(setting_id) + " set successfully.")
 
     def stop(self):
         self.net.stop()
