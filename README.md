@@ -45,17 +45,29 @@ Requested setting_id = 1
 
 ### Sieć
 
-### setting_id=1
+### setting_id=1 - całkowite włączenie sieci
 
-![Network1](/images/network1.png?raw=true)
+<div align="center">
+  <img src="images/topo1.png" width="50%" />
+</div>
 
-### setting_id=2
+### setting_id=2 - odłączenie h2
 
-![Network2](/images/network1.png?raw=true)
+<div align="center">
+  <img src="images/topo2.png" width="50%" />
+</div>
 
-### setting_id=3
+### setting_id=3 - odłączenie h1
 
-### setting_id=4
+<div align="center">
+  <img src="images/topo3.png" width="50%" />
+</div>
+
+### setting_id=4 - całkowite wyłączenie sieci
+
+<div align="center">
+  <img src="images/topo4.png" width="50%" />
+</div>
 
 # Autorzy (squidsquad)
 
