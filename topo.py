@@ -19,16 +19,21 @@ class App:
 
         h1 = self.net.addHost('h1')
         h2 = self.net.addHost('h2')
+        h3 = self.net.addHost('h3')
+
 
         s1 = self.net.addSwitch('s1')
         s2 = self.net.addSwitch('s2')
+        s3 = self.net.addSwitch('s3')
 
         c0 = self.net.addController('c0', controller=RemoteController, ip='127.0.0.1', port=8888)
 
         self.net.addLink(h1, s1)
-        self.net.addLink(s1, h2)
-        self.net.addLink(h1, s2)
+        self.net.addLink(s1, s2)
         self.net.addLink(s2, h2)
+        self.net.addLink(s1, s3)
+        self.net.addLink(s3, s2)
+        self.net.addLink(s3, h3)
         pass
 
     def run(self):
@@ -87,27 +92,45 @@ class App:
         json = request.json
         setting_id = json["setting_id"]
         print("Requested setting_id = " + str(setting_id))
-
+#for safety remember to always update all links
+#everything off
         if setting_id == 1:
             print('Setting links h1-s1 and s1-h2 to status=\'down\'.')
             self.net.configLinkStatus(src='h1', dst='s1', status='down')
-            self.net.configLinkStatus(src='s1', dst='h2', status='down')
+            self.net.configLinkStatus(src='s2', dst='h2', status='down')
+            self.net.configLinkStatus(src='s1', dst='s3', status='down')
+            self.net.configLinkStatus(src='s3', dst='s2', status='down')
+            self.net.configLinkStatus(src='s3', dst='h3', status='down')
+            self.net.configLinkStatus(src='s1', dst='s2', status='down')
             print(str(setting_id) + " set successfully.")
 
         if setting_id == 2:
             print('Setting links h1-s1 and s1-h2 to status=\'up\'.')
             self.net.configLinkStatus(src='h1', dst='s1', status='up')
-            self.net.configLinkStatus(src='s1', dst='h2', status='up')
+            self.net.configLinkStatus(src='s1', dst='s2', status='up')
+            self.net.configLinkStatus(src='s2', dst='h2', status='up')
+            self.net.configLinkStatus(src='s1', dst='s3', status='down')
+            self.net.configLinkStatus(src='s3', dst='s2', status='down')
+            self.net.configLinkStatus(src='s3', dst='h3', status='down')
             print(str(setting_id) + " set successfully.")
 
         if setting_id == 3:
-            print('Print hosts + switches info:')
-            print self.net.hosts
-            print self.net.switches
+            print('Setting H3 to be connected through S3 & disconnecting S1 from S2')
+            self.net.configLinkStatus(src='h1', dst='s1', status='up')
+            self.net.configLinkStatus(src='s2', dst='h2', status='up')
+            self.net.configLinkStatus(src='s1', dst='s2', status='down')
+            self.net.configLinkStatus(src='s1', dst='s3', status='up')
+            self.net.configLinkStatus(src='s3', dst='h3', status='up')
+            self.net.configLinkStatus(src='s3', dst='s2', status='up')
+            print(str(setting_id) + " set successfully.")
 
         if setting_id == 4:
-            print('Print controllers:')
-            print self.net.controllers
+            self.net.configLinkStatus(src='h1', dst='s1', status='down')
+            self.net.configLinkStatus(src='s2', dst='h2', status='up')
+            self.net.configLinkStatus(src='s1', dst='s2', status='down')
+            self.net.configLinkStatus(src='s1', dst='s3', status='down')
+            self.net.configLinkStatus(src='s3', dst='h3', status='up')
+            self.net.configLinkStatus(src='s3', dst='s2', status='up')
 
     def stop(self):
         self.net.stop()
