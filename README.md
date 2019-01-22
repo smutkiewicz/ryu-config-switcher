@@ -45,6 +45,10 @@ Requested setting_id = 1
 
 ### Sieć
 
+<div align="center">
+  <img src="images/topo.png" width="50%" />
+</div>
+
 ### setting_id=1 - całkowite włączenie sieci
 
 <div align="center">
